@@ -1,17 +1,25 @@
 package compiler.token;
 
 /**
- * Token 
+ * Token
+ * 
  * @author Gijs
  */
 public class Token {
-	
+    
+    /**
+     * Token type
+     */
     public final int token;
-    public final String sequence;
+    
+    /**
+     * Token value
+     */
+    public final String value;
 
-    public Token(int token, String sequence) {
+    public Token(int token, String value) {
         super();
         this.token = token;
-        this.sequence = sequence;
+        this.value = value;
     }
 }
