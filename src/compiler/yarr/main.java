@@ -18,14 +18,14 @@ public class main {
         tokenizer.add("[a-zA-Z][a-zA-Z0-9_]*", 8); // variable
 
         try {
-            tokenizer.tokenize("sin(x) * (1 + var_12)");
+            tokenizer.tokenize("sin(x) * \n(1 + var_12)");
 
             
             Parser parser = new Parser(tokenizer.getTokens());
             parser.parse();
 
             for (Token tok : tokenizer.getTokens()) {
-                    System.out.println("" + tok.token + " " + tok.value);
+                    System.out.println("" + tok.token + " " + tok.value + " | line: " + tok.lineNr + " | pos " + tok.position);
             }
         } catch (RuntimeException e) {
                 System.out.println(e.getMessage());
