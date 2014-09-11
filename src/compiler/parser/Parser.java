@@ -7,7 +7,7 @@
 package compiler.parser;
 
 import compiler.token.Token;
-import compiler.token.TokenInfo;
+import compiler.token.TokenRegex;
 import java.util.ArrayList;
 import java.util.List;
 

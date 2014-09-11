@@ -18,7 +18,7 @@ public class main {
 		tokenizer.add("[a-zA-Z][a-zA-Z0-9_]*", 8); // variable
 
 		try {
-			tokenizer.tokenize("sina(x) * (1 + var_12)");
+			tokenizer.tokenize("sin(x) * (1 + var_12)");
                         
                         Parser parser = new Parser(tokenizer.getTokens());
                         parser.parse();
