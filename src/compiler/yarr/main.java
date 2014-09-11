@@ -17,7 +17,7 @@ public class main {
 		tokenizer.add("[a-zA-Z][a-zA-Z0-9_]*", 8); // variable
 
 		try {
-			tokenizer.tokenize(" sin(x) * (1 + var_12) ");
+			tokenizer.tokenize("sin(x) * (1 + var_12)");
 
 			for (Token tok : tokenizer.getTokens()) {
 				System.out.println("" + tok.token + " " + tok.sequence);
