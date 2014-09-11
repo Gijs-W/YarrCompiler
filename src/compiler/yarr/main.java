@@ -1,5 +1,6 @@
 package compiler.yarr;
 
+import compiler.parser.Parser;
 import compiler.token.Token;
 import compiler.token.Tokenizer;
 
@@ -17,7 +18,10 @@ public class main {
 		tokenizer.add("[a-zA-Z][a-zA-Z0-9_]*", 8); // variable
 
 		try {
-			tokenizer.tokenize("sin(x) * (1 + var_12)");
+			tokenizer.tokenize("sina(x) * (1 + var_12)");
+                        
+                        Parser parser = new Parser(tokenizer.getTokens());
+                        parser.parse();
 
 			for (Token tok : tokenizer.getTokens()) {
 				System.out.println("" + tok.token + " " + tok.sequence);

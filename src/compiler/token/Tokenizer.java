@@ -20,33 +20,33 @@ public class Tokenizer {
 	}
 
 	public boolean tokenize(String str) {
-                boolean match = false;
-                
-                
-                Iterator<TokenInfo> it = tokenInfos.iterator();
-                while (it.hasNext() && !match) {
-                    TokenInfo info = it.next();
-                    
-                    Matcher m = info.regex.matcher(str.trim());
-                    if (m.find()) {
-                        match = true;
-                        String tok = m.group().trim();
-                        tokens.add(new Token(info.token, tok));
+            boolean match = false;
 
-                        str = m.replaceFirst("");
-                    }
+
+            Iterator<TokenInfo> it = tokenInfos.iterator();
+            while (it.hasNext() && !match) {
+                TokenInfo info = it.next();
+
+                Matcher m = info.regex.matcher(str.trim());
+                if (m.find()) {
+                    match = true;
+                    String tok = m.group().trim();
+                    tokens.add(new Token(info.token, tok));
+
+                    str = m.replaceFirst("");
                 }
-                
-                if (!match) {
-                    throw new RuntimeException("Unexpected character: " + str.substring(0, 1));
-                }
-    
-                
-                if (!str.isEmpty()) {
-                    tokenize(str);
-                }
-                
-                return true;
+            }
+
+            if (!match) {
+                throw new RuntimeException("Unexpected character: " + str.substring(0, 1));
+            }
+
+
+            if (!str.isEmpty()) {
+                tokenize(str);
+            }
+
+            return true;
 	}
 
 	public LinkedList<Token> getTokens() {
