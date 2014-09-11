@@ -16,10 +16,19 @@ public class Token {
      * Token value
      */
     public final String value;
+    
+    public final int lineNr;
+    
+    /**
+     * Position in lineNr;
+     */
+    public final int position;
 
-    public Token(int token, String value) {
+    public Token(int token, String value, int lineNr, int position) {
         super();
         this.token = token;
         this.value = value;
+        this.lineNr = lineNr;
+        this.position = position;
     }
 }

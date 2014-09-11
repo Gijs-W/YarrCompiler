@@ -25,6 +25,20 @@ public class Tokenizer {
      * List will be empty until tokenize() is called.
      */
     private final LinkedList<Token> tokens;
+    
+    /**
+     * Counter for the token line number
+     */
+    private int lineNr  = 1;
+    
+    
+    /**
+     * Token position in text
+     */
+    private int position = 1;
+    
+    
+    
 
     /**
      * Constructor
@@ -32,6 +46,13 @@ public class Tokenizer {
     public Tokenizer() {
         tokenRegex = new LinkedList<>();
         tokens = new LinkedList<>();
+    }
+    
+    private void init() {
+        tokens.clear();
+        lineNr = 1;
+        position = 1;
+        add("\\n", -1);
     }
 
     /**
@@ -57,18 +78,26 @@ public class Tokenizer {
         while (it.hasNext() && !match) {
             TokenRegex info = it.next();
 
-            Matcher m = info.regex.matcher(str.trim());
+            Matcher m = info.regex.matcher(customTrim(str));
             if (m.find()) {
                 match = true;
                 String tok = m.group().trim();
-                tokens.add(new Token(info.token, tok));
-
+                
+                // if token type == new line detector
+                if (info.token == -1) {
+                    lineNr++;
+                    position = 1;
+                } else {
+                    tokens.add(new Token(info.token, tok, lineNr, position));
+                }
+                
+                position += tok.length();
                 str = m.replaceFirst("");
             }
         }
 
         if (!match) {
-            throw new RuntimeException("Unexpected character: " + str.substring(0, 1));
+            throw new RuntimeException("Unexpected character: " + str);
         }
 
         if (!str.isEmpty()) {
@@ -77,12 +106,26 @@ public class Tokenizer {
     }
     
     /**
+     * Custom trim function
+     * 
+     * Does everything trim() does except for removing new lines
+     * 
+     * @param str
+     * @return cleaned string
+     */
+    private String customTrim(String str) {
+        return str.replaceAll("\t", "")
+                  .replaceAll("\r", "")
+                  .replaceAll(" ", "");
+    }
+    
+    /**
      * Tokenizes input recursively
      * 
      * @param str   Input string which must be tokenized
      */
     public void tokenize(String str) {
-        tokens.clear();
+        init();
         _tokenize(str);
     }
     
