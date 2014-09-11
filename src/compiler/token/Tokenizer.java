@@ -97,7 +97,7 @@ public class Tokenizer {
         }
 
         if (!match) {
-            throw new RuntimeException("Unexpected character: " + str);
+            throw new RuntimeException("Unexpected character: " + str.substring(0, 1) + " at line " + lineNr);
         }
 
         if (!str.isEmpty()) {
