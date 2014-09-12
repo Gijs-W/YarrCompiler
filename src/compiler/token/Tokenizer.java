@@ -37,7 +37,10 @@ public class Tokenizer {
      */
     private int position = 1;
     
-    
+    /**
+     * Counter for level
+     */    
+    private int level = 1;
     
 
     /**
@@ -52,17 +55,18 @@ public class Tokenizer {
         tokens.clear();
         lineNr = 1;
         position = 1;
-        add("\\n", -1);
+        level = 1;
+        add("\\n", TokenType.NEWLINE);
     }
 
     /**
      * Adds a token description
      * 
      * @param regex A valid regex string
-     * @param token The token type
+     * @param type The token type
      */
-    public void add(String regex, int token) {
-        tokenRegex.add(new TokenRegex(Pattern.compile("^("+regex+")"), token));
+    public void add(String regex, TokenType type) {
+        tokenRegex.add(new TokenRegex(Pattern.compile("^("+regex+")"), type));
     }
 
     /**
@@ -83,14 +87,21 @@ public class Tokenizer {
                 match = true;
                 String tok = m.group().trim();
                 
-                // if token type == new line detector
-                if (info.token == -1) {
-                    lineNr++;
-                    position = 1;
-                } else {
-                    tokens.add(new Token(info.token, tok, lineNr, position));
-                }
-                
+                switch (info.type) {
+                    case NEWLINE:
+                        lineNr++;
+                        position = 1;
+                        break;
+                    case CURLY_OPEN:
+                        level++;
+                        break;
+                    case CURLY_CLOSE:
+                        level--;
+                        break;
+                    default:
+                        tokens.add(new Token(info.type, tok, lineNr, position, level));     
+                }              
+
                 position += tok.length();
                 str = m.replaceFirst("");
             }
