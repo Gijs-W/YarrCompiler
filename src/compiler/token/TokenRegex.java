@@ -21,13 +21,12 @@ public class TokenRegex {
     /**
      * Token type
      * 
-     * @todo refactor to enum for better readability?
      */
-    public final int token;
+    public final TokenType type;
 
-    public TokenRegex(Pattern regex, int token) {
+    public TokenRegex(Pattern regex, TokenType type) {
         super();
         this.regex = regex;
-        this.token = token;
+        this.type = type;
     }
 }

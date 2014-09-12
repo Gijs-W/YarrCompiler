@@ -6,11 +6,11 @@ package compiler.token;
  * @author Gijs
  */
 public class Token {
-    
+
     /**
      * Token type
      */
-    public final int token;
+    public final TokenType type;
     
     /**
      * Token value
@@ -23,12 +23,15 @@ public class Token {
      * Position in lineNr;
      */
     public final int position;
+    
+    public final int level;
 
-    public Token(int token, String value, int lineNr, int position) {
+    public Token(TokenType type, String value, int lineNr, int position, int level) {
         super();
-        this.token = token;
+        this.type = type;
         this.value = value;
         this.lineNr = lineNr;
         this.position = position;
+        this.level = level;
     }
 }
