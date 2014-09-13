@@ -25,6 +25,8 @@ public class Token {
     public final int position;
     
     public final int level;
+    
+    private Token partner;
 
     public Token(TokenType type, String value, int lineNr, int position, int level) {
         super();
@@ -34,4 +36,19 @@ public class Token {
         this.position = position;
         this.level = level;
     }
+
+    public Token getPartner() {
+        return partner;
+    }
+
+    public void setPartner(Token partner) {
+        this.partner = partner;
+    }
+    
+    @Override
+    public String toString() {
+        return value + " | line: " + lineNr + " | pos " + position + " | level: " + level + " | " + type;
+    }
+    
+    
 }
