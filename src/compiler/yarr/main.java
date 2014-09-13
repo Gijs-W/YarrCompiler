@@ -27,7 +27,15 @@ public class main {
             parser.parse();
 
             for (Token tok : tokenizer.getTokens()) {
-                    System.out.println(tok.value + " | line: " + tok.lineNr + " | pos " + tok.position + " | level: " + tok.level + " | " + tok.type);
+                    System.out.println(tok);
+                    
+                    Token partner = tok.getPartner();
+                    
+                    if (partner != null) {
+                        System.out.println("==> HasPartner: " + partner);
+                    }
+                    
+                    System.out.println("");
             }
         } catch (RuntimeException e) {
              System.out.println("Error: " + e.getMessage());

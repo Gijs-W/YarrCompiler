@@ -41,18 +41,34 @@ public class Parser {
         Token previous = null;
         for (Token token : tokenList) {
             
-     
-           if (token.type == TokenType.PARENTHESES_OPEN) {
-               parseStack.add(token);
-           }
-           else if (token.type == TokenType.PARENTHESES_CLOSE) {
-               Token stackedToken = parseStack.pop();
-               
-               if (stackedToken == null || stackedToken.type != TokenType.PARENTHESES_OPEN) {
-                   throw new RuntimeException("Unexpected closing parentheses");
-               }
-           } 
-          
+            Token stackedToken;
+            
+            switch(token.type) {
+                case PARENTHESES_OPEN:
+                    parseStack.add(token);
+                    break;
+                case CURLY_OPEN:
+                    parseStack.add(token);
+                    break;
+                case PARENTHESES_CLOSE:
+                    stackedToken = parseStack.pop();
+                    
+                    assertToken(stackedToken, TokenType.PARENTHESES_OPEN);
+                    
+                    createPartnership(token, stackedToken);
+                    
+                    break;
+                
+                case CURLY_CLOSE:
+                    stackedToken = parseStack.pop();
+                   
+                    assertToken(stackedToken, TokenType.CURLY_OPEN);
+                    
+                    createPartnership(token, stackedToken);
+                    break;                    
+                
+            }
+
 
             if (previous != null) {
                 
@@ -67,5 +83,28 @@ public class Parser {
         if (parseStack.size() > 0) {
             throw new RuntimeException("Bracket or parentheses mismatch!");
         }
+    }
+    
+    /**
+     * Make sure that the token type is correct
+     * 
+     * @param token
+     * @param type Expected type
+     */
+    private void assertToken(Token token, TokenType type) {
+        if (token == null || token.type != type) {
+            throw new RuntimeException("Unexpected token, expected: " + type);
+        }
+    }
+    
+    /**
+     * Create a partnership between tokens:
+     * 
+     * @param token1
+     * @param token2 
+     */
+    private void createPartnership(Token token1, Token token2) {
+        token1.setPartner(token2);
+        token2.setPartner(token1);
     }
 }
