@@ -94,9 +94,11 @@ public class Tokenizer {
                         break;
                     case CURLY_OPEN:
                         level++;
+                        tokens.add(new Token(info.type, tok, lineNr, position, level)); 
                         break;
                     case CURLY_CLOSE:
-                        level--;
+                         tokens.add(new Token(info.type, tok, lineNr, position, level)); 
+                        level--;                       
                         break;
                     default:
                         tokens.add(new Token(info.type, tok, lineNr, position, level));     
