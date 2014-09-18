@@ -10,7 +10,7 @@ public class Token {
     /**
      * Token type
      */
-    public final TokenType type;
+    private TokenType type;
     
     /**
      * Token value
@@ -37,6 +37,10 @@ public class Token {
         this.level = level;
     }
 
+    public Token() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public Token getPartner() {
         return partner;
     }
@@ -47,7 +51,21 @@ public class Token {
     
     @Override
     public String toString() {
-        return value + " | line: " + lineNr + " | pos " + position + " | level: " + level + " | " + type;
+        return value + " | line: " + lineNr + " | pos " + position + " | level: " + level + " | " + getType();
+    }
+
+    /**
+     * @return the type
+     */
+    public TokenType getType() {
+        return type;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(TokenType type) {
+        this.type = type;
     }
     
     
