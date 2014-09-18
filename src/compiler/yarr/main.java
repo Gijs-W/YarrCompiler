@@ -4,23 +4,35 @@ import compiler.parser.Parser;
 import compiler.token.Token;
 import compiler.token.TokenType;
 import compiler.token.Tokenizer;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class main {
 
     public static void main(String[] args) {
         Tokenizer tokenizer = new Tokenizer();
-        tokenizer.add("sin|cos|exp|ln|sqrt", TokenType.METHOD); // function
+        tokenizer.add("shout", TokenType.METHOD); // function
+        tokenizer.add("if", TokenType.IF);
+        tokenizer.add("else", TokenType.ELSE);
         tokenizer.add("\\{", TokenType.CURLY_OPEN);
         tokenizer.add("\\}", TokenType.CURLY_CLOSE);
         tokenizer.add("\\(", TokenType.PARENTHESES_OPEN); // open bracket
         tokenizer.add("\\)", TokenType.PARENTHESES_CLOSE); // close bracket
-        tokenizer.add("[+-]", TokenType.OPERATOR_PLUSMIN); // plus or minus
+        tokenizer.add("\\+\\+|\\-\\-", TokenType.OPERATOR_PLUSMIN_UNI_DOUBLE);
+        tokenizer.add("[+-]", TokenType.OPERATOR_PLUSMIN);
+       
+        tokenizer.add("[<>]", TokenType.OPERATOR_BIGSMALL);
+        tokenizer.add("[=]", TokenType.OPERATOR_ASSIGN); 
         tokenizer.add("[*/]", TokenType.OPERATOR_MULTDIV); // mult or divide
         tokenizer.add("[0-9]+", TokenType.INT); // integer number
+        tokenizer.add("\"[a-zA-Z][a-zA-Z0-9_]*\"", TokenType.STRING); // string number
         tokenizer.add("[a-zA-Z][a-zA-Z0-9_]*", TokenType.VARIABLE); // variable
+        tokenizer.add("[;]", TokenType.ENDLINE); // variable
 
         try {
-            tokenizer.tokenize("sin(x) * \n(1 + {var_12})");
+            tokenizer.tokenize(readFile("C:\\Users\\Gijs\\Desktop\\lang.txt", Charset.defaultCharset()));
 
             
             Parser parser = new Parser(tokenizer.getTokens());
@@ -37,8 +49,19 @@ public class main {
                     
                     System.out.println("");
             }
-        } catch (RuntimeException e) {
-             System.out.println("Error: " + e.getMessage());
+        } 
+        catch (IOException e) {
+            System.err.println("IOError: " + e.getMessage());
+        }
+        catch (RuntimeException e) {
+             System.err.println("Error: " + e.getMessage());
         }
     }
+    
+    public static String readFile(String path, Charset encoding) 
+        throws IOException 
+      {
+        byte[] encoded = Files.readAllBytes(Paths.get(path));
+        return new String(encoded, encoding);
+      }
 }
