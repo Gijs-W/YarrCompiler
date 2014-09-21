@@ -13,6 +13,7 @@ public class main {
 
     public static void main(String[] args) {
         Tokenizer tokenizer = new Tokenizer();
+        tokenizer.add("while", TokenType.WHILE);
         tokenizer.add("shout", TokenType.METHOD); // function
         tokenizer.add("if", TokenType.IF);
         tokenizer.add("else", TokenType.ELSE);
@@ -21,9 +22,11 @@ public class main {
         tokenizer.add("\\(", TokenType.PARENTHESES_OPEN); // open bracket
         tokenizer.add("\\)", TokenType.PARENTHESES_CLOSE); // close bracket
         tokenizer.add("\\+\\+|\\-\\-", TokenType.OPERATOR_PLUSMIN_UNI_DOUBLE);
-        tokenizer.add("[+-]", TokenType.OPERATOR_PLUSMIN);
+        tokenizer.add("[-+]", TokenType.OPERATOR_PLUSMIN);
        
         tokenizer.add("[<>]", TokenType.OPERATOR_BIGSMALL);
+        tokenizer.add("==", TokenType.OPERATOR_EQUAL); 
+         tokenizer.add("!=", TokenType.OPERATOR_NOT_EQUAL); 
         tokenizer.add("[=]", TokenType.OPERATOR_ASSIGN); 
         tokenizer.add("[*/]", TokenType.OPERATOR_MULTDIV); // mult or divide
         tokenizer.add("[0-9]+", TokenType.INT); // integer number
